@@ -16,4 +16,10 @@ describe('Client', function(){
 			client.should.be.an.instanceof(events.EventEmitter);
 		});
 	});
+
+	describe('.socket', function(){
+		it('should have one "on" event', function(){
+			client.socket.listeners('connect').length.should.equal(1);
+		});
+	});
 });
