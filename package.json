@@ -1,0 +1,19 @@
+{
+  "name": "chatty",
+  "version": "0.0.1",
+  "description": "A simple chat server",
+  "directories": {
+    "test": "test"
+  },
+  "repository": "",
+  "keywords": [
+    "chat",
+    "net"
+  ],
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  },
+  "author": "Brian Scaturro",
+  "license": "BSD"
+}
