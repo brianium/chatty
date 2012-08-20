@@ -4,22 +4,26 @@ var net = require('net')
   , events = require('events')
 
 describe('Client', function(){
-	var client, socket;
+	var server, client, socket;
+
+	before(function(){
+		server = net.createServer();
+		server.listen(7357);
+	});
+
+	after(function(){
+		server.close();
+	});
 
 	beforeEach(function(){
 		socket = new net.Socket();
 		client = new Client(socket);
 	});
 
-	describe('instance', function(){
-		it('should be instance of EventEmitter', function(){
-			client.should.be.an.instanceof(events.EventEmitter);
+	describe('.socket', function(){
+		it('should connect to server', function(){
+			client.socket.connect(7357);
 		});
 	});
 
-	describe('.socket', function(){
-		it('should have one "on" event', function(){
-			client.socket.listeners('connect').length.should.equal(1);
-		});
-	});
 });
