@@ -31,12 +31,13 @@ Client.prototype = helpers.extend(Client.prototype, {
 
     dataReceived:function(str) {
         if(!this.isDataRead)
-            return this.isDataRead = true;
+            this.isDataRead = true;
 
-        if(!this.username)
-            this.setUsername(str.trim());
-        else
-            this.emit('message', this, str);
+        if(this.isDataRead)
+            this.username ? this.emit('message', this, str) 
+                          : this.setUsername(str.trim());
+
+        this.emit('data', str);
     },
 
     setUsername:function(username) {

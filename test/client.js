@@ -31,6 +31,12 @@ describe('Client', function(){
 		});
 	});
 
+	describe('.isDataRead', function() {
+		it('should initialize to false', function(){
+			client.isDataRead.should.be.false;
+		});
+	});
+
 	describe('connected()', function() {
 		it('should emit "connect" event when socket connects', function(done){
 			client.on('connect', function(){
@@ -46,6 +52,22 @@ describe('Client', function(){
 				done();
 			})
 			client.socket.connect(port);
+		});
+	});
+
+	describe('dataReceived()', function() {
+
+		it('should set isDataRead to true on initial read', function(done) {
+			client.on('data', function() {
+				client.isDataRead.should.be.true;
+				done();
+			});
+
+			client.on('connect', function(){
+				client.socket.emit('data', 'hello');
+			});
+
+			client.socket.connect(port)
 		});
 	});
 
