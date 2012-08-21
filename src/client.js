@@ -20,13 +20,13 @@ Client.prototype = helpers.extend(Client.prototype, {
     username:undefined,
 
     connected:function() {
-        this.emit("connect", this);
-
         ["Connected on " + this.socket.remoteAddress,
          "Type to chat or type 'quit' to disconnect",
          "Please provide your name: "].forEach(this.writeLine.bind(this));
 
         this.socket.on('data', this.dataReceived.bind(this));
+
+        this.emit("connect", this);
     },
 
     dataReceived:function(str) {

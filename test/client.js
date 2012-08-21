@@ -4,11 +4,12 @@ var net = require('net')
   , events = require('events')
 
 describe('Client', function(){
-	var server, client, socket;
+	var server, client, socket,
+		port = 7357;
 
 	before(function(){
 		server = net.createServer();
-		server.listen(7357);
+		server.listen(port);
 	});
 
 	after(function(){
@@ -22,7 +23,29 @@ describe('Client', function(){
 
 	describe('.socket', function(){
 		it('should connect to server', function(){
-			client.socket.connect(7357);
+			client.socket.connect(port);
+		});
+
+		it('should bind connect event', function(){
+			client.socket.listeners('connect').length.should.equal(1);
+		});
+	});
+
+	describe('connected()', function() {
+		it('should emit "connect" event when socket connects', function(done){
+			client.on('connect', function(){
+				this.should.equal(client);
+				done();
+			});
+			client.socket.connect(port);
+		});
+
+		it('should bind data event on socket', function(done){
+			client.on('connect', function(){
+				this.socket.listeners('data').length.should.equal(1);
+				done();
+			})
+			client.socket.connect(port);
 		});
 	});
 
