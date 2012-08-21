@@ -30,20 +30,16 @@ Client.prototype = helpers.extend(Client.prototype, {
     },
 
     dataReceived:function(str) {
-        if(!this.isDataRead)
-            this.isDataRead = true;
-
-        if(this.isDataRead)
-            this.username ? this.emit('message', this, str) 
-                          : this.setUsername(str.trim());
+        this.username ? this.emit('message', this, str) 
+                      : this.setUsername(str.trim());
 
         this.emit('data', str);
     },
 
     setUsername:function(username) {
         this.username = username;
-        this.emit("user", this);
         this.writeLine("Welcome " + username + '!');
+        this.emit("user", this);
     },
 
     writeLine:function(msg) {
