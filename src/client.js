@@ -15,8 +15,6 @@ util.inherits(Client, events.EventEmitter);
 
 Client.prototype = helpers.extend(Client.prototype, {
 
-    isDataRead:false,
-
     username:undefined,
 
     connected:function() {

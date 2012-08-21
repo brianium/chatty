@@ -17,6 +17,8 @@ util.inherits(ChatServer, events.EventEmitter);
 
 ChatServer.prototype = helpers.extend(ChatServer.prototype, {
 
+    socket:undefined,
+
     newClient:function(socket) {
         var client = new Client(socket, this), self = this;
         client.on("connect", this.addClient.bind(this));
@@ -25,7 +27,7 @@ ChatServer.prototype = helpers.extend(ChatServer.prototype, {
     },
 
     start:function() {
-        net.createServer(this.newClient.bind(this))
+        this.socket = net.createServer(this.newClient.bind(this))
            .listen(this.port, this.ip);
     },
 

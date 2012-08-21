@@ -31,12 +31,6 @@ describe('Client', function(){
         });
     });
 
-    describe('.isDataRead', function() {
-        it('should initialize to false', function(){
-            client.isDataRead.should.be.false;
-        });
-    });
-
     describe('connected()', function() {
 
         it('should emit "connect" event when socket connects', function(done){
