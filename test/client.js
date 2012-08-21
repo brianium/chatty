@@ -1,7 +1,6 @@
 var net = require('net')
   , Client = require('../src/client')
-  , should = require('should')
-  , events = require('events')
+  , should = require('should');
 
 describe('Client', function(){
     var server, client, socket,
@@ -102,5 +101,5 @@ describe('Client', function(){
             client.socket.connect(port);
         });
     });
-    
+
 });
