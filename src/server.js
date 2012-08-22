@@ -20,10 +20,7 @@ ChatServer.prototype = helpers.extend(ChatServer.prototype, {
 
     newClient:function(socket) {
         var client = new Client(socket);
-        client.on("user", this.userConnected.bind(this));
-        client.on("message", this.userMessaged.bind(this));
         this.addClient(client);
-        this.emit('add-client', client);
     },
 
     start:function() {
@@ -31,7 +28,10 @@ ChatServer.prototype = helpers.extend(ChatServer.prototype, {
     },
 
     addClient:function(client) {
+        client.on("user", this.userConnected.bind(this));
+        client.on("message", this.userMessaged.bind(this));
         this.clients.push(client);
+        this.emit('add-client', client);
     },
 
     userConnected:function(client) {
