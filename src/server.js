@@ -11,24 +11,23 @@ function ChatServer(port, ip) {
     this.port = port;
     this.ip = ip;
     this.clients = [];
+    this.socket = net.createServer(this.newClient.bind(this));
 }
 
 util.inherits(ChatServer, events.EventEmitter);
 
 ChatServer.prototype = helpers.extend(ChatServer.prototype, {
 
-    socket:undefined,
-
     newClient:function(socket) {
-        var client = new Client(socket, this), self = this;
-        client.on("connect", this.addClient.bind(this));
+        var client = new Client(socket);
         client.on("user", this.userConnected.bind(this));
         client.on("message", this.userMessaged.bind(this));
+        this.addClient(client);
+        this.emit('add-client', this.clients);
     },
 
     start:function() {
-        this.socket = net.createServer(this.newClient.bind(this))
-           .listen(this.port, this.ip);
+        this.socket.listen(this.port, this.ip);
     },
 
     addClient:function(client) {
