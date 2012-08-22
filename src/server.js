@@ -23,7 +23,7 @@ ChatServer.prototype = helpers.extend(ChatServer.prototype, {
         client.on("user", this.userConnected.bind(this));
         client.on("message", this.userMessaged.bind(this));
         this.addClient(client);
-        this.emit('add-client', this.clients);
+        this.emit('add-client', client);
     },
 
     start:function() {
@@ -36,6 +36,7 @@ ChatServer.prototype = helpers.extend(ChatServer.prototype, {
 
     userConnected:function(client) {
         this.broadcast(client.username + " has connected", client);
+        this.emit('user-connect', client);
     },
 
     userMessaged:function(client, msg) {

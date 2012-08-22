@@ -41,8 +41,8 @@ describe('Server', function(){
 
         it("should add client to clients collection", function(done) {
             var socket = new net.Socket();
-            server.on('add-client', function(clients) {
-                clients.length.should.equal(1);
+            server.on('add-client', function(client) {
+                server.clients.length.should.equal(1);
                 done();
             });
             socket.connect(port);
@@ -50,8 +50,8 @@ describe('Server', function(){
 
         it("should bind event to client's user event", function(done) {
             var socket = new net.Socket();
-            server.on('add-client', function(clients) {
-                clients[0].listeners('user').length.should.equal(1);
+            server.on('add-client', function(client) {
+                client.listeners('user').length.should.equal(1);
                 done();
             });
             socket.connect(port);
@@ -59,10 +59,37 @@ describe('Server', function(){
 
         it("should bind event to client's message event", function(done) {
             var socket = new net.Socket();
-            server.on('add-client', function(clients) {
-                clients[0].listeners('message').length.should.equal(1);
+            server.on('add-client', function(client) {
+                client.listeners('message').length.should.equal(1);
                 done();
             });
+            socket.connect(port);
+        });
+
+    });
+
+    describe('userConnected()', function(){
+
+        beforeEach(function(){
+            server.start();
+        });
+
+        afterEach(function(){
+            server.socket.close();
+        });
+
+        it('should emit user-connect event with client when client emits user event', function(done){
+            var socket = new net.Socket();
+
+            server.on('user-connect', function(client){
+                client.username.should.eql("brian");
+                done();
+            });
+
+            server.on('add-client', function(client){
+                client.setUsername('brian');
+            });
+
             socket.connect(port);
         });
 
